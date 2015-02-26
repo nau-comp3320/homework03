@@ -19,6 +19,11 @@ word('Smalltalk', s, m, a, l, l, t, a, l, k).
 
 
 
+fourLetterWord(FourWords) :- word(FourWords,_,_,_,_).
+
+
+
+
 % The following test is enabled and will fail until you have defined a valid
 % fourLetterWord/1 rule
 :- begin_tests(fourLetterWords).
@@ -36,7 +41,12 @@ test(fourLetterWord) :-
 % five-character word ends with the letters o and l.
 
 
-:- begin_tests(endsWithOL, [blocked('step 2')]).
+
+endsWithOL(FiveWords) :- word(FiveWords,_,_,_,o,l).
+
+
+
+:- begin_tests(endsWithOL).
 
 test(endsWithOL) :-
   setof(X, endsWithOL(X), Xs),
@@ -48,10 +58,23 @@ test(endsWithOL) :-
 % Step 3
 %
 % Now, create crossword/10, a rule that will solve the crossword puzzle from the readme.
-%
 
 
-:- begin_tests(crossword, [blocked('step 3')]).
+
+crossword(Across1,Across6,Across7,Across8,Across9,Down2,Down3,Down4,Down5,Down9):-
+	word(Across1,_,_,_,Q),
+	word(Across6,_,U,_,_,Y),
+	word(Across7,_,R,_,_,_,W),
+	word(Across8,_,_,E,_,_),
+	word(Across9,A,_,_,O,_,_,I,_,_,T),
+	word(Down2,Q,_,_,W,_,E),
+	word(Down3,_,U,_,_,_,O,_),
+	word(Down4,_,Y,_,_,_,I,_),
+	word(Down5,_,_,R,_,_,T,_,_,_),
+	word(Down9,A,_,_,_).
+
+
+:- begin_tests(crossword).
 
 test(crossword) :-
   crossword('Lisp', 'COBOL', 'Pascal', 'ALGOL', 'JavaScript', 'Prolog', 'Fortran', 'Clojure', 'Smalltalk', 'Java').

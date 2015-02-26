@@ -3,9 +3,6 @@ homework03: Basic Prolog
 :toc: left
 :toc-title: homework03
 
-Due date:: 2015-03-04 00:00 CST
-Fork from:: https://github.com/nau-comp3320/homework03/fork
-
 
 Objectives
 ----------
@@ -15,21 +12,6 @@ When you have completed this homework, you should be able to:
 * Write facts into a Prolog database and be able to perform queries against them
 * Understand how to use variables to unify against facts
 * Be able to write recursive rules
-
-
-Grading
--------
-
-For this assignment, I am trying out Piazza as a means for you to help each
-other with this homework.  The purpose is to help each other learn.  As such, I
-will make a portion of your grade dependent upon your participation within
-Piazza and the extent to which you ask questions and help answer other people's
-questions.  You can always e-mail me directly with questions, but you can ask
-your peers anonymously on Piazza.  The Piazza page for our class is at
-https://piazza.com/na/spring2015/comp3320/home[].
-
-The rest of the grade will be determined based on the correctness and style of
-the code you submit.  This assignment will be due at 4 Mar 2015 at 00:00 CST.
 
 
 Getting started with Prolog
@@ -42,126 +24,3 @@ you use SWI-Prolog as this will be implementation of Prolog I will be supporting
 To learn how to install and use SWI-Prolog, please refer to the
 link:doc/getting-started-with-prolog.asciidoc[Getting started with Prolog]
 document.
-
-
-Crossword puzzle
-----------------
-
-In this exercise, you will create a simple program to solve a simple crossword
-puzzle.  This should give you some experience in writing rules and using
-variables, including the special singleton variable `_`.  You start with the
-following facts:
-
-.Starting facts
-[source,prolog]
------------------------------------------------------------------------------
-word('Lisp', l, i, s, p).
-word('Java', j, a, v, a).
-word('ALGOL', a, l, g, o, l).
-word('COBOL', c, o, b, o, l).
-word('Pascal', p, a, s, c, a, l).
-word('Prolog', p, r, o, l, o, g).
-word('Clojure', c, l, o, j, u, r, e).
-word('Fortran', f, o, r, t, r, a, n).
-word('JavaScript', j, a, v, a, s, c, r, i, p, t).
-word('Smalltalk', s, m, a, l, l, t, a, l, k).
------------------------------------------------------------------------------
-
-These facts give you a small dictionary of words that you will be using for the
-remainder of this part of the assigment.  The first argument of word is an atom
-giving the user-friendly name of a programming lanugage, while the rest of the
-arguments define how each word is spelled.
-
-=== Step 0: Getting started
-
-You can start SWI-Prolog by opening the file 'crossword.pl'.  Once it has
-started you can load the file by running `[crossword].`.  Next, you can run the
-tests by using `run_tests.`.  You should see that one test is failing due to an
-undefined procedure.  Run `edit.` to start working on the assignment.
-
-=== Step 1: Identifying four-letter words
-
-The first step in this part of the assigment is to create a new rule,
-`fourLetterWord/1`, which will succeed if the argument given is a four-letter
-word.  Remember that you can use the special singleton variable `_` to match
-any letter.  After you have saved changes to the file, you can go back to the
-`?-` prompt and run `make.`, which should reload your file and rerun the tests.
-
-=== Step 2: Identifying five-letter words that end with 'OL'
-
-The next step is to create `endsWithOL/1`, a rule that will test if a
-five-letter word ends with the letters ‘O’ and “L’.  You can enable the test
-for `endsWithOL/1` by changing the line that reads:
-
-[source,prolog]
-------------------------------------------------------------------------------
-:- begin_tests(endsWithOL, [blocked('step 2')]).
-------------------------------------------------------------------------------
-
-To this:
-
-[source,prolog]
-------------------------------------------------------------------------------
-:- begin_tests(endsWithOL).
-------------------------------------------------------------------------------
-
-Once you have completed this part, you should be ready for the next.
-
-=== Step 3: Solving a simple crossword puzzle
-
-Now that you can match parts of words, you should be able to solve a simple
-crossword puzzle.  You will now create a rule `crossword/10` that takes the
-arguments 'Across1', 'Across6', 'Across7', 'Across8', 'Across9', 'Down2',
-'Down3', 'Down4', 'Down5', and 'Down9'.
-
-.The crossword puzzle
-image:crossword.png[]
-
-As with the previous step, you can enable the third test to verify that you are
-getting the correct answer.
-
-
-Family relations
-----------------
-
-For this part of the exercise, you will be working with the database in
-'family.pl'.  You should be able to write some simple rules, including some
-recursive rules.
-
-As with the last part, you should enable the various tests to help guide you in
-writing your rules.  However, they are not a substitute for running queries on
-your own and getting comfortable with writing Prolog.
-
-=== Step 1: A rule for mothers
-
-The database contains a number of facts about the sex and parent/child
-relations of twenty people.  Write a rule `mother/2` that defines whether or
-not someone is someone else's mother.
-
-=== Step 2: A rule for fathers
-
-Now, write a similar rule for fathers.
-
-
-=== Step 3: Your first recursive rule
-
-Now, write a recursive rule `ancestor/2` that determines if someone is someone
-else's ancestor.
-
-=== Step 4: Your second recursive rule
-
-Write a recursive rule `descendant/2` that determines if someone is someone
-else's descendant.  As a bonus, write a non-recursive variant that only has a
-single clause.  You are allowed to use one of the rules you have already
-written (but not `descendant/2`, naturally).
-
-=== Step 5: Describe siblings
-
-Write a rule `sibling/2` to define whether or not two people are siblings.
-Additionally, try doing many sorts of queries against the rule.  Do you get any
-surprissing results?  How can you improve this rule?
-
-=== Step 6: Make your own rules
-
-Challenge yourself and write a rule for a relationship that is not covered
-above.  Impress me.

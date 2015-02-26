@@ -55,6 +55,11 @@ parent(alice, valentina).
 % the second argument
 %
 
+
+mother(X,Y) :- parent(X,Y), female(X).
+
+
+
 :- begin_tests(mother).
 
 test(mother) :-
@@ -81,10 +86,16 @@ test(mother) :-
 %
 % Create a rule father/2 to determine if the first argument is the father of
 % the second argument.  Be sure to enable the test.
-%
 
 
-:- begin_tests(father, [blocked('step 2')]).
+
+
+father(X,Y) :-  parent(X,Y), male(X).
+
+
+
+
+:- begin_tests(father).
 
 test(father) :-
   setof([Father, Child], father(Father, Child), FatherChildren),
@@ -114,7 +125,15 @@ test(father) :-
 %
 
 
-:- begin_tests(ancestor, [blocked('step 3')]).
+
+ancestor(X,Y) :- parent(X,Y);
+                 parent(X, E),
+                 ancestor(E,Y).
+
+
+
+
+:- begin_tests(ancestor).
 
 test(ancestor, [nondet]) :-
   ancestor(miguel, davi),
@@ -137,7 +156,15 @@ test(ancestor, [nondet]) :-
 % so, define a rule descendant2/2 that does this.
 %
 
-:- begin_tests(descendant, [blocked('step 4')]).
+
+
+descendant(X,Y) :- parent(Y,X);
+                   parent(Z,X),
+		   descendant(Z,Y).
+
+
+
+:- begin_tests(descendant).
 
 test(descendant, [nondet]) :-
   descendant(davi, miguel),
@@ -160,7 +187,20 @@ test(descendant, [nondet]) :-
 %
 
 
-:- begin_tests(sibling, [blocked('step 5')]).
+
+
+
+sibling(X,Y):- parent(A,X),
+	       parent(A,Y).
+
+/* I did it when I tried to compile it, I typed anything but the program did nothing. I had to close it by using ALT+F4. */
+
+
+
+
+
+
+:- begin_tests(sibling).
 
 test(sibling, [nondet]) :-
   sibling(davi, arthur),
@@ -175,5 +215,17 @@ test(sibling, [nondet]) :-
 % Now it's your turn to define a rule that describes a family relation.
 % Impress me.
 %
+
+
+
+
+auntCheck(X,Y) :- parent(A,X),parent(A,Y),female(X);
+		  parent(Y,Z),auntCheck(Z,X).
+/* if A is parent of X and A is Y's parent and X is famale and Y is parent of Z
+then Z is aunt of X. */
+
+
+
+
 
 % vim:set ft=prolog:
