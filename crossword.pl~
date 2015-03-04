@@ -53,7 +53,7 @@ test(endsWithOL) :-
 % Now, create crossword/10, a rule that will solve the crossword puzzle from the readme.
 
 crossword(Across1, Across6, Across7, Across8, Across9, Down2, Down3, Down4, Down5, Down9) :- word(Across1, _, _, _, A),
-	word(Across6, _, B, _, _, C), word(Across7, _, D, _, _, _, E), word(Across8, _, _, F, _, _),
+	word(Across6, _, B, _, _, C), word(Across7, _, D, _, _, _, _, E), word(Across8, _, _, F, _, _),
 	word(Across9, Y, _, _, G, _, _, H, _, _, I), word(Down2, A, _, _, E, _, F), word(Down3, _, B, _, _, _, G, _),
 	word(Down4, _, C, _, _, _, H, _), word(Down5, _, _, D, _, _, I, _, _, _), word(Down9,Y, _, _, _).
 
