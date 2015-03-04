@@ -94,8 +94,3 @@ test(crossword) :-
 :- end_tests(crossword).
 
 % vim:set ft=prolog:
-
-
-
-
-

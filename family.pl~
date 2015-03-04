@@ -211,6 +211,3 @@ uncle(X,A):- parent(Z,Y),
 
 
 
-
-
-
