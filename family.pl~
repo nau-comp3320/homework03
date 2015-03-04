@@ -1,0 +1,218 @@
+% All male members of the family
+male(miguel).
+male(davi).
+male(arthur).
+male(pedro).
+male(gabriel).
+male(bernardo).
+male(lucas).
+male(matheus).
+male(rafael).
+male(heitor).
+
+% All female members of the family
+female(sophia).
+female(alice).
+female(julia).
+female(isabella).
+female(manuela).
+female(laura).
+female(luiza).
+female(valentina).
+female(giovanna).
+female(maria_eduarda).
+
+% all parent/child relationships
+parent(miguel, davi).
+parent(miguel, arthur).
+parent(miguel, alice).
+parent(sophia, davi).
+parent(sophia, arthur).
+parent(sophia, alice).
+parent(davi, gabriel).
+parent(davi, manuela).
+parent(julia, gabriel).
+parent(julia, manuela).
+parent(gabriel, giovanna).
+parent(gabriel, heitor).
+parent(laura, giovanna).
+parent(laura, heitor).
+parent(bernardo, maria_eduarda).
+parent(manuela, maria_eduarda).
+parent(arthur, luiza).
+parent(isabella, luiza).
+parent(lucas, rafael).
+parent(luiza, rafael).
+parent(pedro, matheus).
+parent(pedro, valentina).
+parent(alice, matheus).
+parent(alice, valentina).
+
+
+% Step 1
+%
+% Create a rule mother/2 to determine if the first argument is the mother of
+% the second argument
+%
+
+%X must be female first of all and parent of Y
+mother(X, Y) :- female(X), parent(X, Y).
+
+:- begin_tests(mother).
+
+test(mother) :-
+  setof([Mother, Child], mother(Mother, Child), MotherChildren),
+  MotherChildren == [
+    [alice, matheus],
+    [alice, valentina],
+    [isabella, luiza],
+    [julia, gabriel],
+    [julia, manuela],
+    [laura, giovanna],
+    [laura, heitor],
+    [luiza, rafael],
+    [manuela, maria_eduarda],
+    [sophia, alice],
+    [sophia, arthur],
+    [sophia, davi]
+  ].
+
+:- end_tests(mother).
+
+
+% Step 2
+%
+% Create a rule father/2 to determine if the first argument is the father of
+% the second argument.  Be sure to enable the test.
+%
+
+%To be father, X must be male and parent of Y
+father(X, Y) :- male(X), parent(X, Y).
+
+:- begin_tests(father).
+
+test(father) :-
+  setof([Father, Child], father(Father, Child), FatherChildren),
+  FatherChildren == [
+    [arthur, luiza],
+    [bernardo, maria_eduarda],
+    [davi, gabriel],
+    [davi, manuela],
+    [gabriel, giovanna],
+    [gabriel, heitor],
+    [lucas, rafael],
+    [miguel, alice],
+    [miguel, arthur],
+    [miguel, davi],
+    [pedro, matheus],
+    [pedro, valentina]
+  ].
+
+:- end_tests(father).
+
+
+% Step 3
+%
+% Create a rule ancestor/2 to determine if the first argument is an ancestor of
+% the second argument.  Note that this will be a recursive rule.  Be sure to
+% enable the test.
+
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(Z, Y), ancestor(X, Z).
+
+:- begin_tests(ancestor).
+
+test(ancestor, [nondet]) :-
+  ancestor(miguel, davi),
+  ancestor(sophia, maria_eduarda),
+  ancestor(davi, heitor),
+  ancestor(pedro, valentina),
+  \+ ancestor(manuela, rafael),
+  \+ ancestor(arthur, sophia).
+
+:- end_tests(ancestor).
+
+
+% Step 4
+%
+% Create a rule descendant/2 to determine if the first argument is an ancestor
+% of the second argument.  Note that this should also be a recursive rule.  Be
+% sure to enable the test.
+%
+% Bonus: Can you define descendant non-recursively using a single clause?  If
+% so, define a rule descendant2/2 that does this.
+%
+
+descendant(X, Y) :- ancestor(Y, X).
+
+:- begin_tests(descendant).
+
+test(descendant, [nondet]) :-
+  descendant(davi, miguel),
+  descendant(maria_eduarda, sophia),
+  descendant(heitor, davi),
+  descendant(valentina, pedro),
+  \+ descendant(rafael, manuela),
+  \+ descendant(sophia, arthur).
+
+:- end_tests(descendant).
+
+
+% Step 5
+%
+% Create a rule sibling/2 to determine if the first argument is a sibling
+% of the second argument.  Be sure to enable the test.
+%
+% Bonus: What happens when you try to run the goal sibling(A,B)?  Do you get
+% any surprising results?  How would you explain what is happening?
+%
+% Yes, I got A = B, B = davi and A = B, B = arthur and A = B, B = alice
+% and so on... I think that is because prolog considers siblings as the
+% same person at one point. Then I did a little research on this
+% and found that we can preserve that siblings are different persons by
+% A\=B.
+
+sibling(X, Y) :- parent(A, X), parent(A, Y).
+
+:- begin_tests(sibling).
+
+test(sibling, [nondet]) :-
+  sibling(davi, arthur),
+  sibling(matheus, valentina),
+  \+ sibling(giovanna, rafael).
+
+:- end_tests(sibling).
+
+
+% Step 6
+%
+% Now it's your turn to define a rule that describes a family relation.
+% Impress me.
+
+%This rule determines if first argument is uncle of second argument
+uncle(X, Y) :- parent(Z, Y), sibling(X, Z), male(X).
+
+%This rule tells us whether argument1 is aunt of argument2
+aunt(X, Y) :- female(X), parent(Z, Y), sibling(X, Z).
+
+% This rule determines whether first argument is daughter of second
+% argument
+daughter(X,Y) :- female(X), parent(Y, X).
+
+% Similarly to previous rule, this rule determines if first argument is
+% a son of second argument.
+son(X,Y) :- male(X), parent(Y, X).
+
+% This rule determines whether first argument is a cousing of second
+% argument.
+cousin(X, Y) :- parent(A, X), parent(B, Y), sibling(A, B).
+
+% vim:set ft=prolog:
+
+
+
+
+
+
+
+
