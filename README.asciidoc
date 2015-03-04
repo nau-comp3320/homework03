@@ -40,7 +40,7 @@ use Prolog.  While you can use any implementation of Prolog you wish, I suggest
 you use SWI-Prolog as this will be implementation of Prolog I will be supporting.
 
 To learn how to install and use SWI-Prolog, please refer to the
-link:doc/getting-started-with-prolog.asciidoc[Getting started with Prolog]
+link:doc/getting-started-with-prolog.html[Getting started with Prolog]
 document.
 
 
