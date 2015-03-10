@@ -53,14 +53,14 @@ test(endsWithOL) :-
 %
 crossword(Across1, Across6, Across7, Across8, Across9, Down2, Down3, Down4, Down5, Down9) :-
 	word(Across1,_,_,_P),
-	word(Down2,P,_,L,_,_,B),
-	word(Across7,_,S,_,_,_,_),
-	word(Down5,_,_,S,_,_,T,_,_,_),
+	word(Down2,P,_,_,_,_,_),
+	word(Across7,_,A,_,_,_,_),
+	word(Down5,_,_,A,_,_,_,_,_,_),
 	word(Across8,_,_,G,_,_),
-	word(Across9,J,_,_,R,_,_,A,_,_,T),
-	word(Down3,_,L,_,_,_,R,_),
-	word(Across6,_,L,_,_,L),
-	word(Down4,_,L,_,_,_,A,_),
+	word(Across9,_,_,_,_,_,_,_,_,_,T),
+	word(Down3,_,O,_,_,_,A,_),
+	word(Across6,_,O,_,_,_),
+	word(Down4,_,L,_,_,_,_,_),
 	word(Down9,J,_,_,_).
 
 
