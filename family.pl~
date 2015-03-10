@@ -87,7 +87,7 @@ test(mother) :-
 %
 father(X,Y):- parent(X,Y), male(X).
 
-:- begin_tests(father).
+:- begin_tests(father, [blocked('step 2')]).
 
 test(father) :-
   setof([Father, Child], father(Father, Child), FatherChildren),
@@ -115,8 +115,7 @@ test(father) :-
 % the second argument.  Note that this will be a recursive rule.  Be sure to
 % enable the test.
 %
-ancestor(X,Y):- parent(X,Y).
-ancestor(X,Y):- parent(X,A), ancestor(A,Y).
+
 
 :- begin_tests(ancestor, [blocked('step 3')]).
 
@@ -140,10 +139,8 @@ test(ancestor, [nondet]) :-
 % Bonus: Can you define descendant non-recursively using a single clause?  If
 % so, define a rule descendant2/2 that does this.
 %
-descendant(X,Y):- parent(Y,X).
-descendant(X,Y):- parent(Y,Z), descendant(X,Z).
 
-:- begin_tests(descendant).
+:- begin_tests(descendant, [blocked('step 4')]).
 
 test(descendant, [nondet]) :-
   descendant(davi, miguel),
@@ -155,6 +152,7 @@ test(descendant, [nondet]) :-
 
 :- end_tests(descendant).
 
+
 % Step 5
 %
 % Create a rule sibling/2 to determine if the first argument is a sibling
@@ -163,11 +161,9 @@ test(descendant, [nondet]) :-
 % Bonus: What happens when you try to run the goal sibling(A,B)?  Do you get
 % any surprising results?  How would you explain what is happening?
 %
-sibling(X,Y):- parent(Z,Y),
-	parent(Z,X).
 
 
-:- begin_tests(sibling).
+:- begin_tests(sibling, [blocked('step 5')]).
 
 test(sibling, [nondet]) :-
   sibling(davi, arthur),
