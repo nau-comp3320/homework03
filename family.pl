@@ -9,6 +9,8 @@ male(lucas).
 male(matheus).
 male(rafael).
 male(heitor).
+male(theuncle).
+male(thedad).
 
 % All female members of the family
 female(sophia).
@@ -21,6 +23,8 @@ female(luiza).
 female(valentina).
 female(giovanna).
 female(maria_eduarda).
+female(theniece).
+female(thegrandmother).
 
 % all parent/child relationships
 parent(miguel, davi).
@@ -47,13 +51,15 @@ parent(pedro, matheus).
 parent(pedro, valentina).
 parent(alice, matheus).
 parent(alice, valentina).
-
-
+parent(thedad, theniece).
+parent(thegrandmother, thedad).
+parent(thegrandmother, theuncle).
 % Step 1
 %
 % Create a rule mother/2 to determine if the first argument is the mother of
 % the second argument
 %
+mother(X,Y):- parent(X,Y), female(X).
 
 :- begin_tests(mother).
 
@@ -83,6 +89,7 @@ test(mother) :-
 % the second argument.  Be sure to enable the test.
 %
 
+father(X,Y):- parent(X,Y), male(X).
 
 :- begin_tests(father, [blocked('step 2')]).
 
@@ -113,6 +120,8 @@ test(father) :-
 % enable the test.
 %
 
+ancestor(X,Y):- parent(X,Y).
+ancestor(X,Y):- parent(X,A), ancestor(A,Y).
 
 :- begin_tests(ancestor, [blocked('step 3')]).
 
@@ -137,6 +146,10 @@ test(ancestor, [nondet]) :-
 % so, define a rule descendant2/2 that does this.
 %
 
+
+descendant(X,Y):- parent(Y,X).
+descendant(X,Y):- parent(Y,Z), descendant(X,Z).
+
 :- begin_tests(descendant, [blocked('step 4')]).
 
 test(descendant, [nondet]) :-
@@ -158,7 +171,7 @@ test(descendant, [nondet]) :-
 % Bonus: What happens when you try to run the goal sibling(A,B)?  Do you get
 % any surprising results?  How would you explain what is happening?
 %
-
+sibling(X,Y):- parent(Z,Y),parent(Z,X).
 
 :- begin_tests(sibling, [blocked('step 5')]).
 
@@ -175,5 +188,9 @@ test(sibling, [nondet]) :-
 % Now it's your turn to define a rule that describes a family relation.
 % Impress me.
 %
+daughter(X,Y):- parent(Y,X), female(X).
+son(X,Y):- parent(Y,X), male(X).
+uncle(X,Y):- male(X), parent(Z,Y), sibling(X,Z).
+aunt(X,Y):- female(X), parent(Z,Y), sibling(X,Z).
 
 % vim:set ft=prolog:
